@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMP Exporting Service | PT AMP Export Indonesia</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#0F382C',
+                            light: '#1B5242',
+                            gold: '#D4AF37',
+                            goldhover: '#B59226',
+                            accent: '#25D366'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .glass-panel {
+            background: rgba(15, 56, 44, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .gold-gradient {
+            background: linear-gradient(135deg, #F3E5AB 0%, #D4AF37 50%, #AA7C11 100%);
+        }
+        .gold-text {
+            background: linear-gradient(135deg, #FFE58F 0%, #D4AF37 50%, #9E7412 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .modal-animate {
+            animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased selection:bg-brand-gold selection:text-brand-dark">
+
+    <!-- INITIAL LANGUAGE SELECTION MODAL OVERLAY -->
+    <div id="languageModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md transition-opacity duration-300">
+        <div class="modal-animate max-w-lg w-full bg-brand-dark border border-brand-gold/30 rounded-2xl shadow-2xl overflow-hidden p-8 text-center relative">
+            
+            <!-- Logo Header -->
+            <div class="mb-6 flex justify-center">
+                <div class="w-16 h-16 rounded-full bg-brand-gold/10 border border-brand-gold flex items-center justify-center text-brand-gold text-2xl font-bold">
+                    AMP
+                </div>
+            </div>
+
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-white mb-2 tracking-tight">Welcome to AMP Export</h2>
+            <p class="text-xs uppercase tracking-widest text-brand-gold font-semibold mb-6">PT AMP Export Indonesia</p>
+            <p class="text-gray-300 text-sm mb-8 leading-relaxed">
+                Please select your preferred language to proceed to our B2B Export Catalog.<br>
+                <span class="text-gray-400 text-xs italic">Silakan pilih bahasa pilihan Anda untuk melanjutkan ke Katalog Ekspor B2B kami.</span>
+            </p>
+
+            <!-- Language Choice Buttons -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <button onclick="selectInitialLanguage('en')" class="group relative overflow-hidden p-4 rounded-xl border border-brand-gold/40 bg-white/5 hover:bg-brand-gold hover:text-brand-dark text-white transition-all duration-300 flex flex-col items-center justify-center gap-2 shadow-lg">
+                    <span class="text-3xl">🇬🇧</span>
+                    <span class="font-bold text-base group-hover:text-brand-dark">English</span>
+                    <span class="text-xs text-gray-400 group-hover:text-brand-dark/80">International Trade</span>
+                </button>
+
+                <button onclick="selectInitialLanguage('id')" class="group relative overflow-hidden p-4 rounded-xl border border-brand-gold/40 bg-white/5 hover:bg-brand-gold hover:text-brand-dark text-white transition-all duration-300 flex flex-col items-center justify-center gap-2 shadow-lg">
+                    <span class="text-3xl">🇮🇩</span>
+                    <span class="font-bold text-base group-hover:text-brand-dark">Bahasa Indonesia</span>
+                    <span class="text-xs text-gray-400 group-hover:text-brand-dark/80">Bahasa Resmi</span>
+                </button>
+            </div>
+
+            <div class="mt-8 text-xs text-gray-500">
+                You can change your language preference anytime at the top bar.
+            </div>
+        </div>
+    </div>
+
+    <!-- HEADER NAVBAR -->
+    <header class="sticky top-0 z-40 bg-brand-dark/95 border-b border-brand-gold/20 backdrop-blur-md text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            
+            <!-- Company Logo -->
+            <a href="#" class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-lg bg-brand-gold flex items-center justify-center text-brand-dark font-black text-lg shadow-md">
+                    AMP
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-bold text-lg tracking-wider text-white leading-tight">AMP EXPORT</span>
+                    <span class="text-[10px] text-brand-gold tracking-widest uppercase">PT AMP Export Indonesia</span>
+                </div>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+                <a href="#about" class="hover:text-brand-gold transition-colors" data-i18n="nav-about">About Us</a>
+                <a href="#products" class="hover:text-brand-gold transition-colors" data-i18n="nav-products">Products</a>
+                <a href="#quality" class="hover:text-brand-gold transition-colors" data-i18n="nav-quality">Quality Standards</a>
+                <a href="#rfq" class="hover:text-brand-gold transition-colors" data-i18n="nav-rfq">Request Quote</a>
+            </nav>
+
+            <!-- Language Switcher & Quick Contact -->
+            <div class="flex items-center gap-3">
+                <!-- Language Toggle Button -->
+                <div class="inline-flex rounded-lg border border-brand-gold/30 p-1 bg-white/5">
+                    <button id="btn-lang-en" onclick="setLanguage('en')" class="px-3 py-1 text-xs font-bold rounded-md transition-all duration-200 bg-brand-gold text-brand-dark">
+                        EN
+                    </button>
+                    <button id="btn-lang-id" onclick="setLanguage('id')" class="px-3 py-1 text-xs font-bold rounded-md text-gray-300 hover:text-white transition-all duration-200">
+                        ID
+                    </button>
+                </div>
+
+                <!-- Reset Selection Trigger -->
+                <button onclick="reopenLanguageModal()" class="hidden sm:inline-flex p-2 text-gray-400 hover:text-brand-gold text-xs transition" title="Reopen Language Selector">
+                    <i class="fa-solid fa-globe text-base"></i>
+                </button>
+
+                <!-- Mobile Menu Button -->
+                <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg bg-white/10 text-white hover:bg-white/20">
+                    <i class="fa-solid fa-bars text-lg"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Drawer -->
+        <div id="mobileMenu" class="hidden md:hidden border-t border-brand-gold/20 bg-brand-dark px-4 pt-3 pb-6 space-y-3 text-sm">
+            <a href="#about" onclick="toggleMobileMenu()" class="block py-2 hover:text-brand-gold" data-i18n="nav-about">About Us</a>
+            <a href="#products" onclick="toggleMobileMenu()" class="block py-2 hover:text-brand-gold" data-i18n="nav-products">Products</a>
+            <a href="#quality" onclick="toggleMobileMenu()" class="block py-2 hover:text-brand-gold" data-i18n="nav-quality">Quality Standards</a>
+            <a href="#rfq" onclick="toggleMobileMenu()" class="block py-2 hover:text-brand-gold" data-i18n="nav-rfq">Request Quote</a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="relative bg-brand-dark text-white min-h-[85vh] flex items-center justify-center overflow-hidden py-16">
+        <!-- Background Overlay Image -->
+        <div class="absolute inset-0 z-0 opacity-25 bg-cover bg-center" style="background-image: url('amp_hero_banner.jpeg);"></div>
+        <div class="absolute inset-0 z-0 bg-gradient-to-t from-brand-dark via-brand-dark/80 to-transparent"></div>
+
+        <div class="relative z-10 max-w-5xl mx-auto px-4 text-center">
+            
+            <!-- Trust Badge -->
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-gold/10 border border-brand-gold/30 text-brand-gold text-xs font-semibold uppercase tracking-wider mb-8">
+                <i class="fa-solid fa-award text-sm"></i>
+                <span data-i18n="hero-badge">Verified Indonesian Supplier & Exporter</span>
+            </div>
+
+            <!-- Main Headline -->
+            <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight mb-6" data-i18n="hero-title">
+                Sourcing Premium Natural Commodities Directly From Indonesia
+            </h1>
+
+            <!-- Subheadline -->
+            <p class="max-w-3xl mx-auto text-base sm:text-xl text-gray-300 font-light mb-10 leading-relaxed" data-i18n="hero-sub">
+                Official export house supplying 100% Pure Steam-Distilled Nutmeg Oil, High-Calorie Coconut Charcoal Briquettes, and Grade A Planifolia Vanilla Beans to global industries.
+            </p>
+
+            <!-- CTA Button Group -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md mx-auto">
+                <a href="#rfq" class="w-full sm:w-auto px-8 py-4 rounded-xl gold-gradient text-brand-dark font-bold text-base shadow-xl hover:shadow-brand-gold/20 hover:scale-[1.02] transition-all duration-300 flex items-center justify-center gap-3">
+                    <i class="fa-solid fa-paper-plane"></i>
+                    <span data-i18n="btn-rfq">Request a Quote (RFQ)</span>
+                </a>
+                
+                <a href="https://wa.me/6281234567890?text=Hello%20AMP%20Export,%20I%20am%20interested%20in%20your%20commodity%20products." target="_blank" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-brand-accent hover:bg-emerald-600 text-white font-bold text-base shadow-xl transition-all duration-300 flex items-center justify-center gap-3">
+                    <i class="fa-brands fa-whatsapp text-xl"></i>
+                    <span data-i18n="btn-wa">Chat on WhatsApp</span>
+                </a>
+            </div>
+
+            <!-- Trust Bar / Metrics -->
+            <div class="mt-16 pt-10 border-t border-white/10 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+                <div>
+                    <div class="text-2xl sm:text-3xl font-extrabold text-brand-gold">100%</div>
+                    <div class="text-xs text-gray-400 uppercase mt-1 tracking-wider" data-i18n="stat-1">Pure Origin</div>
+                </div>
+                <div>
+                    <div class="text-2xl sm:text-3xl font-extrabold text-brand-gold">ISO & COA</div>
+                    <div class="text-xs text-gray-400 uppercase mt-1 tracking-wider" data-i18n="stat-2">Lab Certified</div>
+                </div>
+                <div>
+                    <div class="text-2xl sm:text-3xl font-extrabold text-brand-gold">FOB / CIF</div>
+                    <div class="text-xs text-gray-400 uppercase mt-1 tracking-wider" data-i18n="stat-3">Incoterms Ready</div>
+                </div>
+                <div>
+                    <div class="text-2xl sm:text-3xl font-extrabold text-brand-gold">24/7</div>
+                    <div class="text-xs text-gray-400 uppercase mt-1 tracking-wider" data-i18n="stat-4">B2B Trade Response</div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section id="about" class="py-20 bg-white border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                
+                <div>
+                    <span class="text-xs font-extrabold text-brand-gold tracking-widest uppercase" data-i18n="about-subtitle">Direct Indonesian Exporter</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-brand-dark mt-2 mb-6" data-i18n="about-title">
+                        Empowering Global Supply Chains with Authentic Indonesian Commodities
+                    </h2>
+                    <p class="text-gray-600 leading-relaxed mb-6" data-i18n="about-text-1">
+                        PT AMP Export Indonesia (AMP Exporting Service) serves as a direct bridge between local Indonesian agricultural cooperatives and international buyers. We streamline international trade by enforcing rigorous laboratory testing, export compliance, and reliable logistics.
+                    </p>
+                    <p class="text-gray-600 leading-relaxed mb-8" data-i18n="about-text-2">
+                        Whether you are a fragrance manufacturer looking for Sabinene-rich Nutmeg Oil, a hookah lounge distributor needing low-ash Coconut Charcoal, or a food processor sourcing gourmet Planifolia Vanilla, we deliver consistent export quality every time.
+                    </p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="flex items-start gap-3 p-4 rounded-xl bg-gray-50 border border-gray-100">
+                            <i class="fa-solid fa-shield-halved text-brand-gold text-xl mt-1"></i>
+                            <div>
+                                <h4 class="font-bold text-sm text-brand-dark" data-i18n="about-f1-title">Quality Assurance</h4>
+                                <p class="text-xs text-gray-500 mt-0.5" data-i18n="about-f1-desc">Full lab testing & COA provided prior to container shipment.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3 p-4 rounded-xl bg-gray-50 border border-gray-100">
+                            <i class="fa-solid fa-truck-fast text-brand-gold text-xl mt-1"></i>
+                            <div>
+                                <h4 class="font-bold text-sm text-brand-dark" data-i18n="about-f2-title">Port Logistics</h4>
+                                <p class="text-xs text-gray-500 mt-0.5" data-i18n="about-f2-desc">Direct loading from Tanjung Priok & Tanjung Perak ports.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visual Gallery Box -->
+                <div class="relative">
+                    <div class="aspect-4/3 rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
+                        <img src="amp_hero_banner.jpeg">
+                    </div>
+                    <!-- Badge Overlay -->
+                    <div class="absolute -bottom-6 -left-6 bg-brand-dark text-white p-6 rounded-2xl shadow-xl hidden sm:block border border-brand-gold/30">
+                        <div class="text-3xl font-black text-brand-gold mb-1">PT AMP</div>
+                        <div class="text-xs text-gray-300 uppercase tracking-widest" data-i18n="about-badge-text">Export Indonesia</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- CORE PRODUCTS SECTION -->
+    <section id="products" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-xs font-extrabold text-brand-gold tracking-widest uppercase" data-i18n="prod-subtitle">Export Portfolio</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-brand-dark mt-2 mb-4" data-i18n="prod-main-title">
+                    Featured Indonesian Commodities
+                </h2>
+                <p class="text-gray-600 text-sm sm:text-base" data-i18n="prod-main-desc">
+                    Explore our standard product specifications below. Download complete laboratory technical data sheets or contact us for custom packaging.
+                </p>
+            </div>
+
+            <!-- Product Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- PRODUCT 1: NUTMEG OIL -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100 flex flex-col transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="amp_nutmeg_oil.jpeg">
+                        <span class="absolute top-4 left-4 bg-brand-dark/90 text-brand-gold text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider backdrop-blur-sm">
+                            ISO 3215
+                        </span>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-xl font-bold text-brand-dark mb-2" data-i18n="p1-name">Nutmeg Essential Oil</h3>
+                            <p class="text-xs text-brand-gold font-semibold uppercase tracking-wider mb-4" data-i18n="p1-botanical">Myristica Fragrans Oil</p>
+                            <p class="text-gray-600 text-sm leading-relaxed mb-6" data-i18n="p1-summary">
+                                100% pure steam-distilled essential oil harvested from mature Indonesian nutmegs. Characterized by high Sabinene and Myristicin content for pharmaceutical and flavor industries.
+                            </p>
+                            
+                            <!-- Specs Table Preview -->
+                            <div class="bg-gray-50 rounded-xl p-3 text-xs space-y-2 mb-6">
+                                <div class="flex justify-between border-b border-gray-200/60 pb-1">
+                                    <span class="text-gray-500" data-i18n="p1-s1-label">Sabinene Profile:</span>
+                                    <span class="font-bold text-gray-800">18.0% - 25.0%</span>
+                                </div>
+                                <div class="flex justify-between border-b border-gray-200/60 pb-1">
+                                    <span class="text-gray-500" data-i18n="p1-s2-label">Myristicin Profile:</span>
+                                    <span class="font-bold text-gray-800">8.0% - 12.0%</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500" data-i18n="p1-s3-label">Standard MOQ:</span>
+                                    <span class="font-bold text-gray-800">100 kg (HDPE Drums)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-3">
+                            <button onclick="openSpecModal('nutmeg')" class="flex-1 py-2.5 rounded-xl border border-brand-dark text-brand-dark hover:bg-brand-dark hover:text-white font-bold text-xs transition duration-200" data-i18n="btn-spec">
+                                Full Tech Specs
+                            </button>
+                            <a href="#rfq" onclick="preselectRFQ('Nutmeg Essential Oil')" class="py-2.5 px-4 rounded-xl gold-gradient text-brand-dark font-bold text-xs shadow-md transition hover:scale-105" data-i18n="btn-inquire">
+                                Inquire
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PRODUCT 2: COCONUT CHARCOAL -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100 flex flex-col transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="amp_charcoal_cubes.jpeg">
+                        <span class="absolute top-4 left-4 bg-brand-dark/90 text-brand-gold text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider backdrop-blur-sm">
+                            Shisha / BBQ
+                        </span>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-xl font-bold text-brand-dark mb-2" data-i18n="p2-name">Coconut Charcoal Briquettes</h3>
+                            <p class="text-xs text-brand-gold font-semibold uppercase tracking-wider mb-4" data-i18n="p2-botanical">Premium Cube & Hexagonal</p>
+                            <p class="text-gray-600 text-sm leading-relaxed mb-6" data-i18n="p2-summary">
+                                Manufactured from 100% natural coconut shells. Delivers high heat, zero odor, minimal smoke, and clean white ash with over 2.5 hours of continuous burning time.
+                            </p>
+                            
+                            <!-- Specs Table Preview -->
+                            <div class="bg-gray-50 rounded-xl p-3 text-xs space-y-2 mb-6">
+                                <div class="flex justify-between border-b border-gray-200/60 pb-1">
+                                    <span class="text-gray-500" data-i18n="p2-s1-label">Fixed Carbon:</span>
+                                    <span class="font-bold text-gray-800">80% - 85% Min</span>
+                                </div>
+                                <div class="flex justify-between border-b border-gray-200/60 pb-1">
+                                    <span class="text-gray-500" data-i18n="p2-s2-label">Ash Content:</span>
+                                    <span class="font-bold text-gray-800">1.8% - 2.5% Max</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500" data-i18n="p2-s3-label">Standard MOQ:</span>
+                                    <span class="font-bold text-gray-800">1x20ft Container (~14 MT)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-3">
+                            <button onclick="openSpecModal('charcoal')" class="flex-1 py-2.5 rounded-xl border border-brand-dark text-brand-dark hover:bg-brand-dark hover:text-white font-bold text-xs transition duration-200" data-i18n="btn-spec">
+                                Full Tech Specs
+                            </button>
+                            <a href="#rfq" onclick="preselectRFQ('Coconut Charcoal Briquettes')" class="py-2.5 px-4 rounded-xl gold-gradient text-brand-dark font-bold text-xs shadow-md transition hover:scale-105" data-i18n="btn-inquire">
+                                Inquire
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PRODUCT 3: VANILLA BEANS -->
+                <div class="bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100 flex flex-col transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="amp_vanilla_beans.jpeg">
+                        <span class="absolute top-4 left-4 bg-brand-dark/90 text-brand-gold text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider backdrop-blur-sm">
+                            Grade A Gourmet
+                        </span>
+                    </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-xl font-bold text-brand-dark mb-2" data-i18n="p3-name">Grade A Vanilla Beans</h3>
+                            <p class="text-xs text-brand-gold font-semibold uppercase tracking-wider mb-4" data-i18n="p3-botanical">Planifolia Variety</p>
+                            <p class="text-gray-600 text-sm leading-relaxed mb-6" data-i18n="p3-summary">
+                                Hand-picked, gourmet grade Indonesian Planifolia vanilla beans. Plump, oily, and supple pods packed with rich natural vanillin fragrance for bakery and extraction industries.
+                            </p>
+                            
+                            <!-- Specs Table Preview -->
+                            <div class="bg-gray-50 rounded-xl p-3 text-xs space-y-2 mb-6">
+                                <div class="flex justify-between border-b border-gray-200/60 pb-1">
+                                    <span class="text-gray-500" data-i18n="p3-s1-label">Bean Length:</span>
+                                    <span class="font-bold text-gray-800">16 cm - 20 cm+</span>
+                                </div>
+                                <div class="flex justify-between border-b border-gray-200/60 pb-1">
+                                    <span class="text-gray-500" data-i18n="p3-s2-label">Moisture Content:</span>
+                                    <span class="font-bold text-gray-800">28% - 32%</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500" data-i18n="p3-s3-label">Standard MOQ:</span>
+                                    <span class="font-bold text-gray-800">10 kg (Vacuum Bags)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-3">
+                            <button onclick="openSpecModal('vanilla')" class="flex-1 py-2.5 rounded-xl border border-brand-dark text-brand-dark hover:bg-brand-dark hover:text-white font-bold text-xs transition duration-200" data-i18n="btn-spec">
+                                Full Tech Specs
+                            </button>
+                            <a href="#rfq" onclick="preselectRFQ('Grade A Vanilla Beans')" class="py-2.5 px-4 rounded-xl gold-gradient text-brand-dark font-bold text-xs shadow-md transition hover:scale-105" data-i18n="btn-inquire">
+                                Inquire
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- QUALITY & CERTIFICATIONS -->
+    <section id="quality" class="py-20 bg-brand-dark text-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-xs font-extrabold text-brand-gold tracking-widest uppercase" data-i18n="qual-subtitle">Export Compliance</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-2 mb-4" data-i18n="qual-title">
+                    Rigorous Export Certification Standards
+                </h2>
+                <p class="text-gray-300 text-sm sm:text-base" data-i18n="qual-desc">
+                    Every shipment handled by PT AMP Export Indonesia undergoes laboratory verification to pass international customs seamlessly.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <div class="bg-white/5 border border-brand-gold/20 rounded-2xl p-6 text-center hover:bg-white/10 transition">
+                    <div class="w-12 h-12 rounded-xl bg-brand-gold/20 text-brand-gold flex items-center justify-center mx-auto mb-4 text-xl">
+                        <i class="fa-solid fa-file-contract"></i>
+                    </div>
+                    <h3 class="font-bold text-base mb-2">COA</h3>
+                    <p class="text-xs text-gray-400" data-i18n="q1-desc">Certificate of Analysis issued by accredited Indonesian testing laboratories for every lot.</p>
+                </div>
+
+                <div class="bg-white/5 border border-brand-gold/20 rounded-2xl p-6 text-center hover:bg-white/10 transition">
+                    <div class="w-12 h-12 rounded-xl bg-brand-gold/20 text-brand-gold flex items-center justify-center mx-auto mb-4 text-xl">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
+                    <h3 class="font-bold text-base mb-2">MSDS</h3>
+                    <p class="text-xs text-gray-400" data-i18n="q2-desc">Material Safety Data Sheets provided for maritime & air cargo clearance safety guidelines.</p>
+                </div>
+
+                <div class="bg-white/5 border border-brand-gold/20 rounded-2xl p-6 text-center hover:bg-white/10 transition">
+                    <div class="w-12 h-12 rounded-xl bg-brand-gold/20 text-brand-gold flex items-center justify-center mx-auto mb-4 text-xl">
+                        <i class="fa-solid fa-seedling"></i>
+                    </div>
+                    <h3 class="font-bold text-base mb-2">Phytosanitary</h3>
+                    <p class="text-xs text-gray-400" data-i18n="q3-desc">Official Agricultural Ministry clearance verifying pest-free organic agricultural products.</p>
+                </div>
+
+                <div class="bg-white/5 border border-brand-gold/20 rounded-2xl p-6 text-center hover:bg-white/10 transition">
+                    <div class="w-12 h-12 rounded-xl bg-brand-gold/20 text-brand-gold flex items-center justify-center mx-auto mb-4 text-xl">
+                        <i class="fa-solid fa-globe"></i>
+                    </div>
+                    <h3 class="font-bold text-base mb-2">COO / Form E</h3>
+                    <p class="text-xs text-gray-400" data-i18n="q4-desc">Certificate of Origin documentation for import tariff optimization in destination countries.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- B2B RFQ INQUIRY FORM -->
+    <section id="rfq" class="py-20 bg-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-gray-50 rounded-3xl p-8 sm:p-12 border border-gray-200 shadow-xl">
+                
+                <div class="text-center mb-10">
+                    <span class="text-xs font-extrabold text-brand-gold tracking-widest uppercase" data-i18n="rfq-subtitle">Direct Trade Desk</span>
+                    <h2 class="text-3xl font-extrabold text-brand-dark mt-2 mb-3" data-i18n="rfq-title">Request a Official Quote (RFQ)</h2>
+                    <p class="text-gray-600 text-sm" data-i18n="rfq-desc">Fill out your target specifications and destination port. Our export team will respond within 12 business hours.</p>
+                </div>
+
+                <form id="rfqForm" onsubmit="handleRFQSubmit(event)" class="space-y-6">
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-bold text-brand-dark uppercase tracking-wider mb-2" data-i18n="lbl-name">Your Full Name *</label>
+                            <input type="text" required placeholder="e.g. John Doe" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-gold focus:outline-none text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-brand-dark uppercase tracking-wider mb-2" data-i18n="lbl-company">Company Name *</label>
+                            <input type="text" required placeholder="e.g. Global Flavors Ltd." class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-gold focus:outline-none text-sm">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-bold text-brand-dark uppercase tracking-wider mb-2" data-i18n="lbl-email">Business Email *</label>
+                            <input type="email" required placeholder="export@yourcompany.com" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-gold focus:outline-none text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-brand-dark uppercase tracking-wider mb-2" data-i18n="lbl-phone">WhatsApp / Phone Number</label>
+                            <input type="tel" placeholder="+1 234 567 890" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-gold focus:outline-none text-sm">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                        <div class="sm:col-span-1">
+                            <label class="block text-xs font-bold text-brand-dark uppercase tracking-wider mb-2" data-i18n="lbl-product">Target Commodity *</label>
+                            <select id="rfqProductSelect" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-gold focus:outline-none text-sm bg-white">
+                                <option value="Nutmeg Essential Oil">Nutmeg Essential Oil</option>
+                                <option value="Coconut Charcoal Briquettes">Coconut Charcoal Briquettes</option>
+                                <option value="Grade A Vanilla Beans">Grade A Vanilla Beans</option>
+                                <option value="Multiple Products">Multiple Products</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-brand-dark uppercase tracking-wider mb-2" data-i18n="lbl-qty">Target Quantity (MT/kg)</label>
+                            <input type="text" placeholder="e.g. 500 kg or 1x20ft" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-gold focus:outline-none text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-brand-dark uppercase tracking-wider mb-2" data-i18n="lbl-incoterm">Preferred Incoterm</label>
+                            <select class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-gold focus:outline-none text-sm bg-white">
+                                <option value="FOB">FOB (Free on Board)</option>
+                                <option value="CIF">CIF (Cost, Insurance & Freight)</option>
+                                <option value="CFR">CFR (Cost & Freight)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-brand-dark uppercase tracking-wider mb-2" data-i18n="lbl-msg">Additional Requirements / Destination Port</label>
+                        <textarea rows="4" placeholder="Mention destination port (e.g. Rotterdam, Jebel Ali) and any specific quality requirements..." class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-brand-gold focus:outline-none text-sm"></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full py-4 rounded-xl gold-gradient text-brand-dark font-extrabold text-base shadow-xl hover:scale-[1.01] transition-all duration-200">
+                        <span data-i18n="btn-submit-rfq">Submit RFQ Inquiry</span>
+                    </button>
+
+                </form>
+
+                <!-- Success Alert Message -->
+                <div id="rfqSuccessAlert" class="hidden mt-6 p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-center text-sm font-medium">
+                    <i class="fa-solid fa-circle-check text-emerald-600 text-lg mr-2"></i>
+                    <span data-i18n="rfq-success">Thank you! Your inquiry has been dispatched to export@amp-exporting.com. Our team will contact you shortly.</span>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-brand-dark text-white border-t border-brand-gold/20 pt-16 pb-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 pb-12 border-b border-white/10">
+                
+                <div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-8 h-8 rounded bg-brand-gold flex items-center justify-center text-brand-dark font-bold text-sm">
+                            AMP
+                        </div>
+                        <span class="font-bold text-lg text-white">PT AMP EXPORT INDONESIA</span>
+                    </div>
+                    <p class="text-xs text-gray-400 leading-relaxed mb-6" data-i18n="foot-about">
+                        Official Indonesian exporter specializing in premium nutmeg essential oil, high-calorie coconut charcoal briquettes, and gourmet vanilla beans.
+                    </p>
+                    <div class="flex items-center gap-4 text-gray-400 text-sm">
+                        <a href="https://wa.me/6281234567890" target="_blank" class="hover:text-brand-gold transition"><i class="fa-brands fa-whatsapp text-lg"></i></a>
+                        <a href="mailto:export@amp-exporting.com" class="hover:text-brand-gold transition"><i class="fa-solid fa-envelope text-lg"></i></a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-sm text-brand-gold uppercase tracking-wider mb-4" data-i18n="foot-contact-title">Export Trade Desk</h4>
+                    <ul class="space-y-3 text-xs text-gray-300">
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-location-dot text-brand-gold mt-1"></i>
+                            <span>Jakarta & Surabaya Trade Hubs, Indonesia</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-envelope text-brand-gold"></i>
+                            <span>export@amp-exporting.com</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fa-brands fa-whatsapp text-brand-gold"></i>
+                            <span>+62 812-3456-7890</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-sm text-brand-gold uppercase tracking-wider mb-4" data-i18n="foot-ports-title">Loading Ports</h4>
+                    <p class="text-xs text-gray-300 leading-relaxed mb-4" data-i18n="foot-ports-desc">
+                        Shipments dispatched via major ocean freight ports:<br>
+                        • Tanjung Priok Port, Jakarta (IDTPP)<br>
+                        • Tanjung Perak Port, Surabaya (IDSUB)
+                    </p>
+                    <div class="text-[11px] text-gray-400 border-t border-white/10 pt-3">
+                        Official Business Registration (NIB & NPWP) provided upon contract execution.
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="pt-8 text-center text-xs text-gray-400 flex flex-col sm:flex-row justify-between items-center gap-4">
+                <div>&copy; 2026 PT AMP Export Indonesia. All Rights Reserved.</div>
+                <div class="flex gap-4">
+                    <a href="#" onclick="reopenLanguageModal()" class="hover:text-brand-gold">Change Language</a>
+                    <a href="#about" class="hover:text-brand-gold">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- TECHNICAL SPECIFICATION MODAL -->
+    <div id="specModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+        <div class="modal-animate max-w-2xl w-full bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200">
+            <div class="bg-brand-dark text-white p-6 flex justify-between items-center">
+                <div>
+                    <h3 id="modalProductTitle" class="text-xl font-bold text-brand-gold">Technical Specification Sheet</h3>
+                    <p class="text-xs text-gray-300">PT AMP Export Indonesia Standard Benchmark</p>
+                </div>
+                <button onclick="closeSpecModal()" class="text-gray-400 hover:text-white text-xl">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div id="modalSpecContent" class="p-6 max-h-[70vh] overflow-y-auto text-sm space-y-4">
+                <!-- Dynamically Populated by JS -->
+            </div>
+
+            <div class="bg-gray-50 p-4 border-t border-gray-200 flex justify-end gap-3">
+                <button onclick="closeSpecModal()" class="px-4 py-2 rounded-xl border border-gray-300 text-gray-700 text-xs font-bold">Close</button>
+                <a href="#rfq" onclick="closeSpecModal()" class="px-4 py-2 rounded-xl gold-gradient text-brand-dark text-xs font-bold">Request Official COA</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT TRANSLATION & INTERACTIVITY LOGIC -->
+    <script>
+        // Dictionary for English (en) and Indonesian (id)
+        const translations = {
+            en: {
+                "nav-about": "About Us",
+                "nav-products": "Products",
+                "nav-quality": "Quality Standards",
+                "nav-rfq": "Request Quote",
+                "hero-badge": "Verified Indonesian Supplier & Exporter",
+                "hero-title": "Sourcing Premium Natural Commodities Directly From Indonesia",
+                "hero-sub": "Official export house supplying 100% Pure Steam-Distilled Nutmeg Oil, High-Calorie Coconut Charcoal Briquettes, and Grade A Planifolia Vanilla Beans to global industries.",
+                "btn-rfq": "Request a Quote (RFQ)",
+                "btn-wa": "Chat on WhatsApp",
+                "stat-1": "Pure Origin",
+                "stat-2": "Lab Certified",
+                "stat-3": "Incoterms Ready",
+                "stat-4": "B2B Trade Response",
+                "about-subtitle": "Direct Indonesian Exporter",
+                "about-title": "Empowering Global Supply Chains with Authentic Indonesian Commodities",
+                "about-text-1": "PT AMP Export Indonesia (AMP Exporting Service) serves as a direct bridge between local Indonesian agricultural cooperatives and international buyers. We streamline international trade by enforcing rigorous laboratory testing, export compliance, and reliable logistics.",
+                "about-text-2": "Whether you are a fragrance manufacturer looking for Sabinene-rich Nutmeg Oil, a hookah lounge distributor needing low-ash Coconut Charcoal, or a food processor sourcing gourmet Planifolia Vanilla, we deliver consistent export quality every time.",
+                "about-f1-title": "Quality Assurance",
+                "about-f1-desc": "Full lab testing & COA provided prior to container shipment.",
+                "about-f2-title": "Port Logistics",
+                "about-f2-desc": "Direct loading from Tanjung Priok & Tanjung Perak ports.",
+                "about-badge-text": "Export Indonesia",
+                "prod-subtitle": "Export Portfolio",
+                "prod-main-title": "Featured Indonesian Commodities",
+                "prod-main-desc": "Explore our standard product specifications below. Download complete laboratory technical data sheets or contact us for custom packaging.",
+                "p1-name": "Nutmeg Essential Oil",
+                "p1-botanical": "Myristica Fragrans Oil",
+                "p1-summary": "100% pure steam-distilled essential oil harvested from mature Indonesian nutmegs. Characterized by high Sabinene and Myristicin content for pharmaceutical and flavor industries.",
+                "p1-s1-label": "Sabinene Profile:",
+                "p1-s2-label": "Myristicin Profile:",
+                "p1-s3-label": "Standard MOQ:",
+                "p2-name": "Coconut Charcoal Briquettes",
+                "p2-botanical": "Premium Cube & Hexagonal",
+                "p2-summary": "Manufactured from 100% natural coconut shells. Delivers high heat, zero odor, minimal smoke, and clean white ash with over 2.5 hours of continuous burning time.",
+                "p2-s1-label": "Fixed Carbon:",
+                "p2-s2-label": "Ash Content:",
+                "p2-s3-label": "Standard MOQ:",
+                "p3-name": "Grade A Vanilla Beans",
+                "p3-botanical": "Planifolia Variety",
+                "p3-summary": "Hand-picked, gourmet grade Indonesian Planifolia vanilla beans. Plump, oily, and supple pods packed with rich natural vanillin fragrance for bakery and extraction industries.",
+                "p3-s1-label": "Bean Length:",
+                "p3-s2-label": "Moisture Content:",
+                "p3-s3-label": "Standard MOQ:",
+                "btn-spec": "Full Tech Specs",
+                "btn-inquire": "Inquire",
+                "qual-subtitle": "Export Compliance",
+                "qual-title": "Rigorous Export Certification Standards",
+                "qual-desc": "Every shipment handled by PT AMP Export Indonesia undergoes laboratory verification to pass international customs seamlessly.",
+                "q1-desc": "Certificate of Analysis issued by accredited Indonesian testing laboratories for every lot.",
+                "q2-desc": "Material Safety Data Sheets provided for maritime & air cargo clearance safety guidelines.",
+                "q3-desc": "Official Agricultural Ministry clearance verifying pest-free organic agricultural products.",
+                "q4-desc": "Certificate of Origin documentation for import tariff optimization in destination countries.",
+                "rfq-subtitle": "Direct Trade Desk",
+                "rfq-title": "Request a Official Quote (RFQ)",
+                "rfq-desc": "Fill out your target specifications and destination port. Our export team will respond within 12 business hours.",
+                "lbl-name": "Your Full Name *",
+                "lbl-company": "Company Name *",
+                "lbl-email": "Business Email *",
+                "lbl-phone": "WhatsApp / Phone Number",
+                "lbl-product": "Target Commodity *",
+                "lbl-qty": "Target Quantity (MT/kg)",
+                "lbl-incoterm": "Preferred Incoterm",
+                "lbl-msg": "Additional Requirements / Destination Port",
+                "btn-submit-rfq": "Submit RFQ Inquiry",
+                "rfq-success": "Thank you! Your inquiry has been dispatched to export@amp-exporting.com. Our team will contact you shortly.",
+                "foot-about": "Official Indonesian exporter specializing in premium nutmeg essential oil, high-calorie coconut charcoal briquettes, and gourmet vanilla beans.",
+                "foot-contact-title": "Export Trade Desk",
+                "foot-ports-title": "Loading Ports",
+                "foot-ports-desc": "Shipments dispatched via major ocean freight ports:\n• Tanjung Priok Port, Jakarta (IDTPP)\n• Tanjung Perak Port, Surabaya (IDSUB)"
+            },
+            id: {
+                "nav-about": "Tentang Kami",
+                "nav-products": "Produk",
+                "nav-quality": "Standar Kualitas",
+                "nav-rfq": "Minta Penawaran",
+                "hero-badge": "Pemasok & Eksportir Resmi Indonesia",
+                "hero-title": "Pemasok Komoditas Alam Unggulan Langsung Dari Indonesia",
+                "hero-sub": "Eksportir resmi minyak pala murni distilasi uap 100%, briket arang kelapa kalori tinggi, dan biji vanili Planifolia Grade A ke pasar internasional.",
+                "btn-rfq": "Minta Penawaran (RFQ)",
+                "btn-wa": "Hubungi via WhatsApp",
+                "stat-1": "Asal Murni",
+                "stat-2": "Uji Laboratorium",
+                "stat-3": "Siap Incoterms",
+                "stat-4": "Respon Cepat B2B",
+                "about-subtitle": "Eksportir Langsung Indonesia",
+                "about-title": "Memperkuat Rantai Pasok Global dengan Komoditas Otentik Indonesia",
+                "about-text-1": "PT AMP Export Indonesia (AMP Exporting Service) bertindak sebagai jembatan langsung antara koperasi petani lokal Indonesia dan pembeli internasional. Kami mempermudah perdagangan internasional dengan standar uji lab, kepatuhan ekspor, dan logistik yang andal.",
+                "about-text-2": "Baik Anda produsen wewangian yang membutuhkan Minyak Pala kaya Sabinene, distributor kafe shisha yang membutuhkan Arang Kelapa rendah abu, maupun industri makanan yang membutuhkan Vanili Gourmet, kami menyajikan kualitas ekspor terbaik secara konsisten.",
+                "about-f1-title": "Jaminan Kualitas",
+                "about-f1-desc": "Sertifikat COA & uji laboratorium lengkap sebelum pengiriman kontainer.",
+                "about-f2-title": "Logistik Pelabuhan",
+                "about-f2-desc": "Pengiriman langsung dari pelabuhan Tanjung Priok & Tanjung Perak.",
+                "about-badge-text": "Ekspor Indonesia",
+                "prod-subtitle": "Portofolio Ekspor",
+                "prod-main-title": "Komoditas Unggulan Indonesia",
+                "prod-main-desc": "Pelajari spesifikasi standar produk kami di bawah ini. Unduh dokumen teknis laboratorium lengkap atau hubungi kami untuk kemasan kustom.",
+                "p1-name": "Minyak Pala Murni",
+                "p1-botanical": "Myristica Fragrans Oil",
+                "p1-summary": "100% minyak atsiri murni hasil distilasi uap buah pala pilihan Indonesia. Memiliki kandungan Sabinene & Myristicin tinggi untuk industri farmasi dan wewangian.",
+                "p1-s1-label": "Profil Sabinene:",
+                "p1-s2-label": "Profil Myristicin:",
+                "p1-s3-label": "Minimum Order:",
+                "p2-name": "Briket Arang Kelapa",
+                "p2-botanical": "Kualitas Cube & Heksagonal",
+                "p2-summary": "Diproduksi dari 100% tempurung kelapa alami. Menghasilkan panas tinggi, tanpa bau, minim asap, serta abu putih bersih dengan durasi bakar lebih dari 2.5 jam.",
+                "p2-s1-label": "Karbon Terikat:",
+                "p2-s2-label": "Kadar Abu:",
+                "p2-s3-label": "Minimum Order:",
+                "p3-name": "Biji Vanili Grade A",
+                "p3-botanical": "Varietas Planifolia",
+                "p3-summary": "Biji vanili Planifolia Indonesia kualitas gourmet pilihan. Polong tebal, berminyak, lentur, dan kaya aroma vanilin alami untuk industri kue dan ekstrak.",
+                "p3-s1-label": "Panjang Polong:",
+                "p3-s2-label": "Kadar Air:",
+                "p3-s3-label": "Minimum Order:",
+                "btn-spec": "Spesifikasi Teknis",
+                "btn-inquire": "Tanyakan",
+                "qual-subtitle": "Kepatuhan Ekspor",
+                "qual-title": "Standar Sertifikasi Ekspor Lengkap",
+                "qual-desc": "Setiap pengiriman oleh PT AMP Export Indonesia melewati verifikasi laboratorium agar lulus kepabeanan internasional dengan lancar.",
+                "q1-desc": "Certificate of Analysis diterbitkan oleh laboratorium penguji terakreditasi Indonesia untuk setiap lot.",
+                "q2-desc": "Material Safety Data Sheets disediakan untuk panduan keselamatan kargo laut & udara.",
+                "q3-desc": "Sertifikat Fitosanitari resmi Kementan memastikan produk bebas dari hama pertanian.",
+                "q4-desc": "Dokumen Surat Keterangan Asal (SKA / Form E) untuk optimasi tarif bea masuk di negara tujuan.",
+                "rfq-subtitle": "Meja Perdagangan Ekspor",
+                "rfq-title": "Minta Penawaran Resmi (RFQ)",
+                "rfq-desc": "Isi spesifikasi kebutuhan dan pelabuhan tujuan Anda. Tim ekspor kami akan merespon dalam 12 jam kerja.",
+                "lbl-name": "Nama Lengkap Anda *",
+                "lbl-company": "Nama Perusahaan *",
+                "lbl-email": "Email Bisnis *",
+                "lbl-phone": "Nomor WhatsApp / Telepon",
+                "lbl-product": "Komoditas Pilihan *",
+                "lbl-qty": "Jumlah Kebutuhan (MT/kg)",
+                "lbl-incoterm": "Pilihan Incoterm",
+                "lbl-msg": "Kebutuhan Tambahan / Pelabuhan Tujuan",
+                "btn-submit-rfq": "Kirim Permintaan Penawaran",
+                "rfq-success": "Terima kasih! Permintaan Anda telah terkirim ke export@amp-exporting.com. Tim kami akan segera menghubungi Anda.",
+                "foot-about": "Eksportir resmi Indonesia yang mengkhususkan diri pada minyak pala murni, briket arang kelapa kalori tinggi, dan biji vanili grade A.",
+                "foot-contact-title": "Layanan Ekspor",
+                "foot-ports-title": "Pelabuhan Muat",
+                "foot-ports-desc": "Pengiriman dilakukan melalui pelabuhan utama:\n• Pelabuhan Tanjung Priok, Jakarta (IDTPP)\n• Pelabuhan Tanjung Perak, Surabaya (IDSUB)"
+            }
+        };
+
+        let currentLanguage = 'en';
+
+        // Select Initial Language from Overlay
+        function selectInitialLanguage(lang) {
+            setLanguage(lang);
+            document.getElementById('languageModal').classList.add('hidden');
+        }
+
+        // Reopen Modal Option
+        function reopenLanguageModal() {
+            document.getElementById('languageModal').classList.remove('hidden');
+        }
+
+        // Apply selected language globally
+        function setLanguage(lang) {
+            currentLanguage = lang;
+            
+            // Toggle Button Styles
+            const btnEn = document.getElementById('btn-lang-en');
+            const btnId = document.getElementById('btn-lang-id');
+
+            if (lang === 'en') {
+                btnEn.className = "px-3 py-1 text-xs font-bold rounded-md transition-all duration-200 bg-brand-gold text-brand-dark";
+                btnId.className = "px-3 py-1 text-xs font-bold rounded-md text-gray-300 hover:text-white transition-all duration-200";
+            } else {
+                btnId.className = "px-3 py-1 text-xs font-bold rounded-md transition-all duration-200 bg-brand-gold text-brand-dark";
+                btnEn.className = "px-3 py-1 text-xs font-bold rounded-md text-gray-300 hover:text-white transition-all duration-200";
+            }
+
+            // Translate elements marked with data-i18n
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    element.innerText = translations[lang][key];
+                }
+            });
+        }
+
+        // Mobile Menu Drawer Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Preselect Product in RFQ
+        function preselectRFQ(productName) {
+            const select = document.getElementById('rfqProductSelect');
+            select.value = productName;
+        }
+
+        // Submit RFQ Form Handler
+        function handleRFQSubmit(event) {
+            event.preventDefault();
+            const alertBox = document.getElementById('rfqSuccessAlert');
+            alertBox.classList.remove('hidden');
+            document.getElementById('rfqForm').reset();
+            setTimeout(() => {
+                alertBox.classList.add('hidden');
+            }, 6000);
+        }
+
+        // Product Specification Specs Modal Handler
+        const specDetails = {
+            nutmeg: {
+                title: "Nutmeg Essential Oil (Minyak Pala Murni)",
+                content: `
+                    <table class="w-full text-left border-collapse border border-gray-200 text-xs">
+                        <tr class="bg-gray-100"><th class="p-2 border">Parameter</th><th class="p-2 border">Standard Value</th></tr>
+                        <tr><td class="p-2 border font-medium">Botanical Source</td><td class="p-2 border">Myristica fragrans</td></tr>
+                        <tr><td class="p-2 border font-medium">Extraction Method</td><td class="p-2 border">100% Steam Distilled</td></tr>
+                        <tr><td class="p-2 border font-medium">Appearance</td><td class="p-2 border">Clear, Pale Yellow Liquid</td></tr>
+                        <tr><td class="p-2 border font-medium">Specific Gravity (20°C)</td><td class="p-2 border">0.880 – 0.910</td></tr>
+                        <tr><td class="p-2 border font-medium">Refractive Index (20°C)</td><td class="p-2 border">1.475 – 1.488</td></tr>
+                        <tr><td class="p-2 border font-medium">Sabinene Profile</td><td class="p-2 border">18.0% - 25.0% min</td></tr>
+                        <tr><td class="p-2 border font-medium">Myristicin Profile</td><td class="p-2 border">8.0% - 12.0% min</td></tr>
+                        <tr><td class="p-2 border font-medium">Standard Export Packaging</td><td class="p-2 border">25 kg HDPE Jerrycan / 180 kg Steel Drum</td></tr>
+                    </table>
+                `
+            },
+            charcoal: {
+                title: "Coconut Charcoal Briquettes (Briket Arang Kelapa)",
+                content: `
+                    <table class="w-full text-left border-collapse border border-gray-200 text-xs">
+                        <tr class="bg-gray-100"><th class="p-2 border">Parameter</th><th class="p-2 border">Standard Value</th></tr>
+                        <tr><td class="p-2 border font-medium">Raw Material</td><td class="p-2 border">100% Natural Coconut Shell</td></tr>
+                        <tr><td class="p-2 border font-medium">Fixed Carbon</td><td class="p-2 border">80% - 85% Min</td></tr>
+                        <tr><td class="p-2 border font-medium">Moisture Content</td><td class="p-2 border">5% - 6% Max</td></tr>
+                        <tr><td class="p-2 border font-medium">Ash Content</td><td class="p-2 border">1.8% - 2.5% Max (Light Grey/White)</td></tr>
+                        <tr><td class="p-2 border font-medium">Burning Time</td><td class="p-2 border">2.5 to 3.0 Hours</td></tr>
+                        <tr><td class="p-2 border font-medium">Dimension Formats</td><td class="p-2 border">25x25x25mm Cube / Customizable</td></tr>
+                        <tr><td class="p-2 border font-medium">Standard Export Packaging</td><td class="p-2 border">1 kg Inner Box + 10 kg Master Carton</td></tr>
+                    </table>
+                `
+            },
+            vanilla: {
+                title: "Grade A Vanilla Beans (Biji Vanili Planifolia)",
+                content: `
+                    <table class="w-full text-left border-collapse border border-gray-200 text-xs">
+                        <tr class="bg-gray-100"><th class="p-2 border">Parameter</th><th class="p-2 border">Standard Value</th></tr>
+                        <tr><td class="p-2 border font-medium">Varietal Grade</td><td class="p-2 border">Planifolia Gourmet Grade A</td></tr>
+                        <tr><td class="p-2 border font-medium">Bean Length</td><td class="p-2 border">16 cm to 20 cm+</td></tr>
+                        <tr><td class="p-2 border font-medium">Moisture Level</td><td class="p-2 border">28% - 32%</td></tr>
+                        <tr><td class="p-2 border font-medium">Vanillin Content</td><td class="p-2 border">1.8% - 2.2% Min</td></tr>
+                        <tr><td class="p-2 border font-medium">Appearance / Texture</td><td class="p-2 border">Dark brown/black, supple, oily sheen</td></tr>
+                        <tr><td class="p-2 border font-medium">Standard Export Packaging</td><td class="p-2 border">Vacuum-sealed food grade bags (1-5 kg)</td></tr>
+                    </table>
+                `
+            }
+        };
+
+        function openSpecModal(productKey) {
+            const data = specDetails[productKey];
+            if (data) {
+                document.getElementById('modalProductTitle').innerText = data.title;
+                document.getElementById('modalSpecContent').innerHTML = data.content;
+                document.getElementById('specModal').classList.remove('hidden');
+                document.getElementById('specModal').classList.add('flex');
+            }
+        }
+
+        function closeSpecModal() {
+            document.getElementById('specModal').classList.add('hidden');
+            document.getElementById('specModal').classList.remove('flex');
+        }
+    </script>
+
+</body>
+</html>
